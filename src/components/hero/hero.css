@@ -56,6 +56,7 @@
     display: inline-flex;
     gap: 10px;
     align-items: center;
+    justify-content: center;
     background-color: #0F1E93;
     border-radius: 48px;
     font-size: 18px;

@@ -1,22 +1,27 @@
+import { useNavigate } from "react-router-dom"
 import iconA from "../../assets/account.svg"
 import iconStar from "../../assets/star.svg"
 import iconExit from "../../assets/exit.svg"
 import profile from "../../assets/Ellipse.svg"
+import logo from "../../assets/Logo.svg"
+import logoK from "../../assets/movieopen.svg"
 import keyboarArrowDown from "../../assets/KeyboardArrowDown.svg"
 import "./navbar.css"
 
 export default function Navbar() {
+  const mylist = useNavigate();
+  const home = useNavigate();
   return (
     <nav className="navbar">
       <div className="frame-70">
-        <div className="container-logo">
-            <img src="Logo.svg" alt="" className="logo-1"/>
-            <img src="movieopen.svg" alt="" className="movie-open"/>
+        <div className="container-logo" onClick={() => home("/")}>
+            <img src={logo} alt="" className="logo-1"/>
+            <img src={logoK} alt="" className="movie-open"/>
         </div>
         <ul className="blog">
           <li>Series</li>
           <li>Film</li>
-          <li>Daftar Saya</li>
+          <li onClick={() => mylist("/daftarsaya")}>Daftar Saya</li>
         </ul>
       </div>
       <div className="avatar">

@@ -61,15 +61,7 @@ export default function CardContinueWatching() {
     },
   };
 
-  // useEffect(() => {
-  //   fetch(
-  //     "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-  //     options
-  //   )
-  //     .then((response) => response.json())
-  //     .then((response) => setApiData(response.results))
-  //     .catch((err) => console.error(err));
-  // }, []);
+
 
   useEffect(() => {
     const fetchGenres = async () => {

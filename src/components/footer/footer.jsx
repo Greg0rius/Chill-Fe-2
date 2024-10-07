@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import Logo from "../../../public/Logo.svg";
+import Logo from "../../assets/Logo.svg";
 import arrowRight from "../../assets/chevron-right.svg";
 import "./footer.css";
 

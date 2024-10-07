@@ -8,12 +8,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./movieListCard.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { useContext } from "react";
+import { MovieListContext } from "../../MovieListContext";
+import { Link } from "react-router-dom";
 
 export default function MovieListCard({ judul, catagory }) {
-  const [isHover, setIsHover] = useState(null);
   const [apiData, setApiData] = useState([]);
+  const [isHover, setIsHover] = useState(null);
   const [genres, setGenres] = useState([]);
   const sliderRef = useRef(null);
+
 
   const settings = {
     dots: true,
@@ -108,67 +112,84 @@ export default function MovieListCard({ judul, catagory }) {
     setIsHover(null);
   };
 
+
+  const { addToMyList } = useContext(MovieListContext);
+
+  const handleAddToMyList = (movie) => {
+    addToMyList(movie);
+  };
+
   return (
     <div className="movie-list-title">
       <h2 className="title">{judul}</h2>
       <div className="movie-list">
         <Slider {...settings} ref={sliderRef}>
           {apiData.map((card, index) => (
-            <motion.div
-              layout
-              key={`list${index}`}
+            <Link
+              to={`/detail/${index}`}
+              state={{ movie: card, category: catagory }}
               className="card-container"
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
+              key={`list${index}`}
             >
-              <motion.div className="card-list">
-                <motion.img
-                  src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-                  style={{
-                    opacity: isHover === index ? "0" : "1",
-                  }}
-                  className="image-contain"
-                />
-                <AnimatePresence>
-                  {isHover === index && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 1 }}
-                      animate={{ opacity: 1, scale: 1.3 }}
-                      exit={{ opacity: 0, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                      className="hover-card"
-                    >
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500${card.backdrop_path}`}
-                        className="image-hover"
-                      />
-                      <div className="frame-82">
-                        <div className="frame-77">
-                          <div className="frame-78">
-                            <button>
-                              <img src={play} alt="play" />
-                            </button>
+              <motion.div
+                layout
+                key={`list${index}`}
+                className="card-container"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <motion.div className="card-list">
+                  <motion.img
+                    src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
+                    style={{
+                      opacity: isHover === index ? "0" : "1",
+                    }}
+                    className="image-contain"
+                  />
+                  <AnimatePresence>
+                    {isHover === index && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 1 }}
+                        animate={{ opacity: 1, scale: 1.3 }}
+                        exit={{ opacity: 0, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="hover-card"
+                      >
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500${card.backdrop_path}`}
+                          className="image-hover"
+                        />
+                        <div className="frame-82">
+                          <div className="frame-77">
+                            <div className="frame-78">
+                              <button>
+                                <img src={play} alt="play" />
+                              </button>
+                              <div
+                                className="frame-71"
+                                onClick={() => handleAddToMyList(card)}
+                              >
+                                <img src={cheklist} alt="cheklist" />
+                              </div>
+                            </div>
                             <div className="frame-71">
-                              <img src={cheklist} alt="cheklist" />
+                              <img src={arrowDown} alt="dropdown" />
                             </div>
                           </div>
-                          <div className="frame-71">
-                            <img src={arrowDown} alt="dropdown" />
+                          <div className="frame-75">
+                            <span className="age">13+</span>
+                            <p>{card.title}</p>
                           </div>
+                          <ul className="frame-76">
+                            {getGenreNames(card.genre_ids)}
+                          </ul>
                         </div>
-                        <div className="frame-75">
-                          <span className="age">13+</span>
-                          <p>{card.title}</p>
-                        </div>
-                        <ul className="frame-76">
-                          {getGenreNames(card.genre_ids)}
-                        </ul>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </motion.div>
-            </motion.div>
+            </Link>
           ))}
         </Slider>
       </div>
